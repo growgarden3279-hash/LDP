@@ -1,0 +1,29 @@
+{
+  "users": {
+    "Marcial": {
+      "pin": "1234",
+      "role": "admin",
+      "ventas": 10
+    },
+    "Kuki": {
+      "pin": "1111",
+      "role": "user",
+      "ventas": 5
+    },
+    "Benja": {
+      "pin": "2222",
+      "role": "user",
+      "ventas": 8
+    },
+    "Fede": {
+      "pin": "3333",
+      "role": "user",
+      "ventas": 3
+    },
+    "Kevin": {
+      "pin": "4444",
+      "role": "user",
+      "ventas": 7
+    }
+  }
+}
