@@ -10,8 +10,8 @@
     <style>
         body { margin: 0; background: radial-gradient(circle at top,#1a001f,#000); color: white; font-family: 'Goldman', cursive; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .logo-container { text-align: center; padding: 20px; }
-        .logo-img { width: 120px; height: 120px; border-radius: 20px; box-shadow: 0 0 20px #ff00aa; margin-bottom: 10px; border: 2px solid #ff00aa; }
-        .logo-text { font-family: 'Orbitron'; font-size: 32px; color: #ff00aa; text-shadow: 0 0 15px #ff00aa; }
+        .logo-img { width: 130px; height: 130px; border-radius: 20px; box-shadow: 0 0 25px #ff00aa; margin-bottom: 10px; border: 2px solid #ff00aa; object-fit: cover; }
+        .logo-text { font-family: 'Orbitron'; font-size: 32px; color: #ff00aa; text-shadow: 0 0 15px #ff00aa; letter-spacing: 5px; }
         
         .container { padding: 20px; max-width: 800px; margin: auto; }
         button { background: #111; border: 1px solid #ff00aa; padding: 15px; color: white; border-radius: 12px; width: 100%; margin-bottom: 15px; font-family: 'Orbitron'; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 0 #600040; }
@@ -19,10 +19,10 @@
         
         .hidden { display: none !important; }
         
-        /* Números verdes con contorno negro */
+        /* Números verdes con contorno negro potentes */
         .money { 
             color: #00ff00; 
-            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 10px rgba(0, 255, 0, 0.5);
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 12px rgba(0, 255, 0, 0.6);
             font-weight: bold;
         }
         
@@ -38,8 +38,11 @@
         .bar-container { background: #111; border: 1px solid #ff00aa; border-radius: 12px; width: 100%; height: 25px; margin-top: 10px; overflow: hidden; }
         .bar-fill { background: linear-gradient(90deg, #ff00aa, #00ffff); height: 100%; width: 0%; transition: width 1s ease; }
         
-        #rankingList p { margin: 12px 0; font-size: 15px; text-align: left; border-bottom: 1px solid #222; padding-bottom: 6px; display: flex; justify-content: space-between; }
+        #rankingList p { margin: 12px 0; font-size: 15px; text-align: left; border-bottom: 1px solid #222; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .admin-panel { background: #1a0000; border: 2px solid red; padding: 15px; border-radius: 15px; margin-top: 20px; }
+        
+        /* Estilo Empleado del Mes */
+        .top-badge { background: #00ffff; color: black; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; vertical-align: middle; margin-left: 5px; }
     </style>
 </head>
 <body>
@@ -63,51 +66,67 @@
     <h2 id="pinUser" class="pink"></h2>
     <div class="pin-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     <div id="keypad" class="keypad"></div>
-    <p onclick="location.reload()" style="margin-top:20px; cursor:pointer;">VOLVER</p>
+    <p onclick="location.reload()" style="margin-top:20px; cursor:pointer; color:#555;">← VOLVER</p>
 </div>
 
 <div id="mainScreen" class="container hidden">
     <div class="card">
         <h2 style="margin:0">Hola, <span id="userName" class="pink"></span></h2>
         <h3 style="margin:10px 0">Recaudación: <span class="money">$</span><span id="totalDinero" class="money">0</span></h3>
-        <p style="font-size:12px; margin:0;">Meta: <span class="money">$</span><span id="metaText" class="money">70.000</span></p>
+        <p style="font-size:12px; margin:0;">Meta Actual: <span class="money">$</span><span id="metaText" class="money">70.000</span></p>
         <div class="bar-container"><div class="bar-fill" id="kitBar"></div></div>
     </div>
 
-    <div class="card" style="border-color: #00ffff; background: rgba(0, 255, 255, 0.05);">
-        <h3 style="color:#00ffff; margin-top:0;">🏆 TOP VENTAS</h3>
-        <h2 id="bestEmployeeName" class="pink" style="margin:5px 0;">---</h2>
-        <p id="bestEmployeeStats" style="font-size:14px; margin:0;">0g vendidos</p>
+    <div class="card" style="border-color: #00ffff; background: rgba(0, 255, 255, 0.05); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -10px; right: -10px; background: #00ffff; color: black; padding: 15px 30px; transform: rotate(15deg); font-weight: bold; font-size: 12px;">TOP</div>
+        <h3 style="color:#00ffff; margin-top:0; font-size: 14px;">🏆 EMPLEADO DEL MES</h3>
+        <h2 id="bestEmployeeName" class="pink" style="margin:5px 0; font-size: 28px;">---</h2>
+        <p id="bestEmployeeStats" style="font-size:14px; margin:0; color: #00ffff;">0g Vendidos</p>
     </div>
 
     <div class="card">
-        <h3 class="pink">Ranking</h3>
+        <h3 class="pink" style="margin-top:0">Ranking de Ventas</h3>
         <div id="rankingList"></div>
     </div>
 
     <div id="adminPanel" class="admin-panel hidden">
-        <p style="color:red; margin-bottom:10px; font-size:12px;">ADMINISTRACIÓN</p>
+        <p style="color:red; margin-bottom:10px; font-weight: bold;">MODO ADMINISTRADOR</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <button onclick="editarVentas()" style="border-color:cyan; padding:10px;">Gramos</button>
-            <button onclick="cambiarMeta()" style="border-color:yellow; padding:10px;">Meta $</button>
+            <button onclick="editarVentas()" style="border-color:cyan; box-shadow: 0 4px 0 #005555;">Cargar G</button>
+            <button onclick="cambiarMeta()" style="border-color:yellow; box-shadow: 0 4px 0 #666600;">Edit Meta</button>
         </div>
-        <button onclick="resetearTodo()" style="border-color:red; background:#300; margin-top:10px;">RESET TOTAL</button>
+        <button onclick="resetearTodo()" style="border-color:red; background:#300; margin-top:10px; box-shadow: 0 4px 0 #500;">RESET SEMANA</button>
     </div>
 
-    <button onclick="location.reload()" style="margin-top:20px; border-color:#444;">SALIR</button>
+    <button onclick="location.reload()" style="margin-top:20px; border-color:#444; box-shadow: none;">CERRAR SESIÓN</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
 <script>
-const firebaseConfig = { apiKey: "TU_API_KEY", authDomain: "ldp-161e5.firebaseapp.com", databaseURL: "https://ldp-161e5-default-rtdb.firebaseio.com/", projectId: "ldp-161e5" };
+const firebaseConfig = { 
+    apiKey: "TU_API_KEY", 
+    authDomain: "ldp-161e5.firebaseapp.com", 
+    databaseURL: "https://ldp-161e5-default-rtdb.firebaseio.com/", 
+    projectId: "ldp-161e5" 
+};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+
 let currentUser = "", enteredPin = "", metaActual = 70000;
 const oficiales = ['Marcial', 'Kuki', 'Benja', 'Fede', 'Kevin'];
 const audio = document.getElementById("musicaLDP");
 
-function selectUser(u){ currentUser=u; enteredPin=""; document.getElementById("loginScreen").classList.add("hidden"); document.getElementById("pinScreen").classList.remove("hidden"); document.getElementById("pinUser").innerText=u; audio.play().catch(()=>{}); updateDots(); }
+function selectUser(u){ 
+    currentUser=u; 
+    enteredPin=""; 
+    document.getElementById("loginScreen").classList.add("hidden"); 
+    document.getElementById("pinScreen").classList.remove("hidden"); 
+    document.getElementById("pinUser").innerText=u.toUpperCase(); 
+    audio.play().catch(()=>{}); 
+    updateDots(); 
+}
 
 const keypad = document.getElementById("keypad");
 [1,2,3,4,5,6,7,8,9,"B",0].forEach(n=>{
@@ -118,7 +137,10 @@ const keypad = document.getElementById("keypad");
         if(enteredPin.length===4){
             db.ref('users/'+currentUser).once('value').then(s=>{
                 const v=s.val();
-                if(v && String(v.pin)===String(enteredPin)){ if(v.role==='admin')document.getElementById("adminPanel").classList.remove("hidden"); showMain(); }
+                if(v && String(v.pin)===String(enteredPin)){ 
+                    if(v.role==='admin') document.getElementById("adminPanel").classList.remove("hidden"); 
+                    showMain(); 
+                }
                 else { alert("PIN INCORRECTO"); enteredPin=""; updateDots(); }
             });
         }
@@ -129,32 +151,68 @@ const keypad = document.getElementById("keypad");
 function updateDots(){ document.querySelectorAll(".dot").forEach((d,i)=>d.classList.toggle("filled",i<enteredPin.length)); }
 
 function showMain(){
-    document.getElementById("pinScreen").classList.add("hidden"); document.getElementById("mainScreen").classList.remove("hidden");
+    document.getElementById("pinScreen").classList.add("hidden"); 
+    document.getElementById("mainScreen").classList.remove("hidden");
     document.getElementById("userName").innerText=currentUser;
     
-    db.ref('config/meta').on('value', s => { metaActual = s.val() || 70000; document.getElementById("metaText").innerText = metaActual.toLocaleString(); });
+    // Escuchar Meta
+    db.ref('config/meta').on('value', s => { 
+        metaActual = s.val() || 70000; 
+        document.getElementById("metaText").innerText = metaActual.toLocaleString(); 
+    });
 
+    // Escuchar Ventas
     db.ref('users').on('value',s=>{
         const data=s.val(); let totalG=0, rank=[];
-        oficiales.forEach(nom=>{ let v=Number(data[nom]?data[nom].ventas:0); rank.push({name:nom, g:v}); totalG+=v; });
+        oficiales.forEach(nom=>{ 
+            let v=Number(data[nom] ? data[nom].ventas : 0); 
+            rank.push({name:nom, g:v}); 
+            totalG+=v; 
+        });
+        
         const totalRecaudado = totalG * 20000;
         document.getElementById("totalDinero").innerText=totalRecaudado.toLocaleString();
-        rank.sort((a,b)=>b.g-a.g);
+        
+        // Ordenar Ranking
+        rank.sort((a,b)=>b.g - a.g);
         
         const list=document.getElementById("rankingList"); list.innerHTML="";
-        rank.forEach((u,i)=>{ list.innerHTML+=`<p><span>${i+1}. ${u.name}</span> <span><b class="pink">${u.g}g</b> - <b class="money">$${(u.g*20000).toLocaleString()}</b></span></p>`; });
+        rank.forEach((u,i)=>{ 
+            let esTop = (i === 0 && u.g > 0) ? '<span class="top-badge">TOP 1</span>' : '';
+            list.innerHTML+=`<p><span>${i+1}. ${u.name} ${esTop}</span> <span><b class="pink">${u.g}g</b> - <b class="money">$${(u.g*20000).toLocaleString()}</b></span></p>`; 
+        });
         
-        document.getElementById("bestEmployeeName").innerText = rank[0].name;
-        document.getElementById("bestEmployeeStats").innerText = rank[0].g + "g vendidos";
+        // Actualizar Empleado del Mes
+        if(rank[0].g > 0) {
+            document.getElementById("bestEmployeeName").innerText = rank[0].name;
+            document.getElementById("bestEmployeeStats").innerText = rank[0].g + "g Vendidos";
+        } else {
+            document.getElementById("bestEmployeeName").innerText = "SIN VENTAS";
+            document.getElementById("bestEmployeeStats").innerText = "Carguen gramos para rankear";
+        }
         
+        // Barra
         let porc = Math.min((totalRecaudado / metaActual) * 100, 100);
         document.getElementById("kitBar").style.width = porc + "%";
     });
 }
 
-function cambiarMeta(){ const m=prompt("Nueva meta $:", metaActual); if(m) db.ref('config').update({meta: Number(m)}); }
-function editarVentas(){ const u=prompt("Oficial:"); if(oficiales.includes(u)){ const g=prompt("Gramos:"); if(g)db.ref('users/'+u).update({ventas:Number(g)}); } }
-function resetearTodo(){ if(confirm("¿BORRAR TODO?")) oficiales.forEach(n=>db.ref('users/'+n).update({ventas:0})); }
+function cambiarMeta(){ 
+    const m=prompt("Nueva meta de dinero ($):", metaActual); 
+    if(m) db.ref('config').update({meta: Number(m)}); 
+}
+function editarVentas(){ 
+    const u=prompt("Nombre del Oficial:"); 
+    if(oficiales.includes(u)){ 
+        const g=prompt("Total de Gramos:"); 
+        if(g) db.ref('users/'+u).update({ventas:Number(g)}); 
+    } else { alert("Usuario no válido"); }
+}
+function resetearTodo(){ 
+    if(confirm("¿RESET TOTAL SEMANAL? Todos los gramos volverán a 0.")) {
+        oficiales.forEach(n => db.ref('users/'+n).update({ventas:0}));
+    }
+}
 </script>
 </body>
 </html>
